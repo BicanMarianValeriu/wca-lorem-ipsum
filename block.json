@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wecodeart/lorem-ipsum",
+	"title": "Lorem ipsum",
+	"category": "theme",
+    "icon": "admin-tools",
+	"description": "Generate lorem ipsum placeholders.",
+	"keywords": [ "lorem" ],
+	"textdomain": "wecodeart",
+	"attributes": {
+		"items": {
+			"type": "number",
+            "default": 1
+		}
+	},
+	"supports": {
+		"inserter": false
+	},
+	"editorStyle": "wecodeart-support-modules-lorem"
+}
