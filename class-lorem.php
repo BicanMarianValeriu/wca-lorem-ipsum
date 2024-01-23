@@ -34,23 +34,31 @@ final class Lorem implements Integration {
 	 * Send to Constructor
 	 */
 	public function register_hooks() {
-		\add_action( 'init',	[ $this, 'register_block'	], 20, 1 );
+		\add_action( 'init',						[ $this, 'register_block'	], 20, 1 );
+		\add_action( 'enqueue_block_editor_assets', [ $this, 'register_assets'	], 20, 1 );
 	}
 
 	/**
-	 * Editor only.
+	 * Register block.
 	 *
 	 * @return  void
 	 */
 	public function register_block(): void {
+		\register_block_type_from_metadata( dirname( __FILE__ ) . '/block.json' );
+	}
+	
+	/**
+	 * Register assets.
+	 *
+	 * @return  void
+	 */
+	public function register_assets(): void {
 		wp_enqueue_script(
 			$this->make_handle(),
 			$this->get_asset( 'js', 'index' ),
 			[ 'wp-block-editor', 'wp-blocks', 'wp-data', 'wp-rich-text' ],
 			wecodeart( 'version' )
 		);
-
-		register_block_type_from_metadata( dirname( __FILE__ ) . '/block.json' );
 	}
 
 	/**
@@ -58,7 +66,7 @@ final class Lorem implements Integration {
 	 *
 	 * @return string
 	 */
-	public static function get_asset( string $type, string $name ): string {
+	public function get_asset( string $type, string $name ): string {
 		$file_path = wecodeart_if( 'is_dev_mode' ) ? 'unminified' : 'minified';
 		$file_name = wecodeart_if( 'is_dev_mode' ) ? $name . '.' . $type :  $name . '.min.' . $type;
 		$file_path = wecodeart_config( 'paths' )['uri'] . '/inc/support/modules/lorem/assets/' . $file_path . '/' . $type . '/' . $file_name;
